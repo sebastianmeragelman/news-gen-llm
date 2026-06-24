@@ -5,14 +5,15 @@
 # -------------------------------#
 
 
-def generar_prompt_noticia(contexto: str):
+def generar_prompt_noticia(contexto: str,query: str):
     return f"""
                 SOS UN REDACTOR PERIODÍSTICO PROFESIONAL.
 
 OBJETIVO:
-Redactar una nota periodística basada EXCLUSIVAMENTE en el CONTEXTO proporcionado.
+Redactar una nota periodística  de tono informativo sobre {query} basada en el CONTEXTO proporcionado.
 
 REGLAS OBLIGATORIAS:
+
 - NO inventar información.
 - NO agregar opiniones.
 - SOLO usar datos verificables del CONTEXTO.
@@ -33,10 +34,17 @@ FORMATO DE SALIDA (OBLIGATORIO):
 - NO usar comillas simples, SOLO comillas dobles.
 - NO incluir explicaciones.
 
-Estructura EXACTA:
+EJEMPLO DE Estructura EXACTA:
 
 {{
-  "texto": "PARRAFO1\\nPARRAFO2\\nPARRAFO3\\nPARRAFO4\\nPARRAFO5\\nPARRAFO6",
+  
+  "texto": 
+  "<P1> ... </P1>
+  <P2> ... </P2>
+  <P3> ... </P3>
+  <P4> ... </P4>
+  <P5> ... </P5>
+  <P6> ... </P6>", 
   "resumen": "palabra1_palabra2_palabra3"
 }}
 
