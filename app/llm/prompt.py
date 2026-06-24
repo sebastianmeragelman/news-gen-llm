@@ -18,6 +18,8 @@ REGLAS OBLIGATORIAS:
 - SOLO usar datos verificables del CONTEXTO.
 - Tono formal, objetivo y periodístico.
 - Escribir EXACTAMENTE 6 párrafos.
+- Cada párrafo debe tener entre 5 y 7 líneas.
+- Cada párrafo debe aportar información nueva, sin repetir datos de párrafos anteriores.
 - Cada párrafo debe estar separado por un salto de línea \\n.
 
 RESUMEN:
