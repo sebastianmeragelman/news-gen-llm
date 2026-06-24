@@ -11,7 +11,7 @@ from ddgs import DDGS
 from urllib.parse import urlparse
 
 
-# 🔒 Filtro de dominios no deseados
+#  Filtro de dominios no deseados
 def es_url_valida(url: str) -> bool:
     blacklist = [
         "instagram.com",
@@ -28,7 +28,7 @@ def es_url_valida(url: str) -> bool:
     return not any(b in dominio for b in blacklist)
 
 
-# 🧹 Limpieza de texto HTML
+#  Limpieza de texto HTML
 def extraer_texto_limpio(html: str) -> str:
     soup = BeautifulSoup(html, "html.parser")
 
@@ -46,7 +46,7 @@ def extraer_texto_limpio(html: str) -> str:
     return text
 
 
-# 🔍 Función principal
+# Función principal de busqueda y scraping de noticias
 def buscador(query: str, n_resultados: int = 3):
 
     headers = {"User-Agent": "Mozilla/5.0"}
@@ -59,7 +59,7 @@ def buscador(query: str, n_resultados: int = 3):
     for r in results:
         url = r.get("href", "")
 
-        # 🚫 Filtrar redes sociales
+        # Filtrar redes sociales
         if not es_url_valida(url):
             continue
 
@@ -71,11 +71,11 @@ def buscador(query: str, n_resultados: int = 3):
 
             text = extraer_texto_limpio(response.text)
 
-            # 🚫 descartar contenido pobre
+            # descartar contenido pobre
             if len(text) < 300:
                 continue
 
-            # ✂ limitar tamaño (para LLM)
+            #  limitar tamaño (para LLM)
             text = text[:3000]
 
             resultados_finales.append({
@@ -84,7 +84,7 @@ def buscador(query: str, n_resultados: int = 3):
                 "text": text
             })
 
-            # 🎯 cortar cuando llegamos a N buenos
+            # Si ya tenemos suficientes resultados, salimos del bucle
             if len(resultados_finales) >= n_resultados:
                 break
 
