@@ -109,8 +109,8 @@ def noticias_json_seguro(texto: str) -> dict:
         return data
 
     except Exception as e:
-        #  fallback seguro
         return {
-            "url": "Se perdio la url",
-            "titulo": "error-generacion"
+            "titulo": "Error de generación",
+            "texto": "No se pudo generar la noticia correctamente.",
+            "resumen": "error-generacion"
         }

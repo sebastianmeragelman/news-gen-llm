@@ -53,9 +53,15 @@ def generar_noticia(query: str):
     contexto = " ".join(textos)
     print("CONTEXTO FINAL PARA EL LLM:\n", contexto)
     respuesta = generar_contenido(contexto,query=query)
-    logger.info(f"RAW LLM RESPONSE:\n{respuesta}")
-    data = parsear_json_seguro(respuesta)
+    #logger.info(f"RAW LLM RESPONSE:\n{respuesta}")
+    #data = parsear_json_seguro(respuesta)
 
-    print("############ DATA:\n", data)
+    #print("############ DATA:\n", data)
     print("##### LOG  parsear_json_seguro() PASA OK #####")
-    return data
+    #return data
+    #return json.loads(respuesta)
+    respuesta = generar_contenido(contexto, query=query)
+    print(respuesta)
+    logger.info(respuesta)
+
+    return respuesta

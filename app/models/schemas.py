@@ -24,5 +24,12 @@ class QueryInput(BaseModel):
     query: str
 
 class NoticiaOutput(BaseModel):
+    titulo: str
+    texto: str
+    resumen: str
+
+
+class NoticiaGenerada(BaseModel):
+    titulo: str
     texto: str
     resumen: str

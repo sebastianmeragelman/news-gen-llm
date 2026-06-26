@@ -130,19 +130,28 @@ Redactar una nota periodística  de tono informativo sobre {query} basada en el 
 
 REGLAS OBLIGATORIAS:
 
-- NO inventar información.
 - NO agregar opiniones.
+- OMITIR LAS SECCIONES DE TEXTO QUE DIGAN COPYWRIGHT 
 - SOLO usar datos verificables del CONTEXTO.
 - Tono formal, objetivo y periodístico.
-- Escribir EXACTAMENTE 6 párrafos.
-- Cada párrafo debe tener entre 5 y 7 líneas.
-- Cada párrafo debe aportar información nueva, sin repetir datos de párrafos anteriores.
 - Cada párrafo debe estar separado por un salto de línea \\n.
+
+NOTA:
+- Ampliar la información con datos verificables del CONTEXTO.
+- Ampliar la información con datos verificables en Wikipedia
+- CADA PARRAFO DEBE TENER ENTRE 4 y 6 lineas.
+- Escribir entre 5 y 6 párrafos.
+- El total de la nota debe tener entre 300 y 600 palabras.
+- Cada párrafo debe aportar información nueva, sin repetir datos de párrafos anteriores.
 
 RESUMEN:
 - Generar un resumen de MÁXIMO 10 palabras.
 - Usar SOLO palabras clave (sin conectores innecesarios).
 - Formato: palabras separadas por guiones bajos (ej: crisis_economica_inflacion).
+
+TITULO: 
+- Generar un título de MÁXIMO 10 palabras.
+- Usar un lenguaje claro y conciso.
 
 FORMATO DE SALIDA (OBLIGATORIO):
 - Responder SOLO con JSON válido.
@@ -153,7 +162,7 @@ FORMATO DE SALIDA (OBLIGATORIO):
 EJEMPLO DE Estructura EXACTA:
 
 {{
-  
+  "titulo": "Título de la noticia",
   "texto": 
   "<P1> ... </P1>
   <P2> ... </P2>

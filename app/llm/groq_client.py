@@ -2,13 +2,15 @@ from groq import Groq
 from app.config.settings import GROQ_API_KEY
 from app.llm.prompt import generar_prompt_noticia, filtrar_prompt_noticia
 import instructor
-from app.models.schemas import ListaNoticias
+from app.models.schemas import ListaNoticias,NoticiaGenerada
 
 # Cliente base nativo
 client = Groq(api_key=GROQ_API_KEY)
 
 # Cliente extendido con Instructor (reutiliza el cliente base)
 cliente_2 = instructor.from_groq(client)
+
+
 
 def generar_contenido(contexto: str, query: str):
     print(" |||||||||||||||||||||||||||||||||||||||||||||")
@@ -19,17 +21,15 @@ def generar_contenido(contexto: str, query: str):
     
     print("##### LOG  generar_prompt_noticia() PASA OK #####")
 
-    response = client.chat.completions.create(
+    response = cliente_2.chat.completions.create(
         model="llama-3.1-8b-instant",
+        response_model=NoticiaGenerada,
         messages=[{"role": "user", "content": prompt}],
         temperature=0.5 
     )
     # Devuelve un string (Texto plano)
-
-    if not response.choices or not response.choices[0].message:
-        raise ValueError("La respuesta del modelo no contiene un mensaje válido.")
-
-    return response.choices[0].message.content
+    return response.model_dump()
+    
 
 
 def filtrar_contenido(noticias: list, query: str):
