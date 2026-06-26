@@ -9,6 +9,11 @@ from pydantic import BaseModel, Field
 from typing import List
 
 
+
+class ImagenesOutput(BaseModel):
+    query: str
+    imagenes: List[str]
+
 class Noticia(BaseModel):
     titulo: str
     url: str
