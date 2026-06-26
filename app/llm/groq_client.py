@@ -17,12 +17,18 @@ def generar_contenido(contexto: str, query: str):
 
     prompt = generar_prompt_noticia(contexto, query=query)
     
+    print("##### LOG  generar_prompt_noticia() PASA OK #####")
+
     response = client.chat.completions.create(
         model="llama-3.1-8b-instant",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.5 
     )
     # Devuelve un string (Texto plano)
+
+    if not response.choices or not response.choices[0].message:
+        raise ValueError("La respuesta del modelo no contiene un mensaje válido.")
+
     return response.choices[0].message.content
 
 
