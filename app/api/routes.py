@@ -7,7 +7,7 @@
 
 
 from fastapi import APIRouter
-from app.models.schemas import QueryInput, NoticiaOutput
+from app.models.schemas import QueryInput, NoticiaOutput,ImagenesInput
 from app.services.news_service import generar_noticia
 from app.services.image_generation import obtener_imagenes
 
@@ -19,5 +19,5 @@ def generar(data: QueryInput):
 
 
 @router.post("/imagenes")
-def imagenes(data: QueryInput):
-    return obtener_imagenes(data.query)
+def imagenes(data: ImagenesInput):
+    return obtener_imagenes(data.query, data.cantidad)

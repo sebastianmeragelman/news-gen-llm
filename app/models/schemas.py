@@ -9,6 +9,11 @@ from pydantic import BaseModel, Field
 from typing import List
 
 
+class ImagenesInput(BaseModel):
+    query: str
+    # Añadimos cantidad con valor por defecto 1 por si no lo envían
+    cantidad: int = Field(default=1, alias="cantidad")
+
 
 class ImagenesOutput(BaseModel):
     query: str

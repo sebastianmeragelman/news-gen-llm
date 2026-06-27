@@ -17,6 +17,10 @@ def obtener_imagenes_unsplash(query: str, per_page: int = 1, page: int = 1, orie
     }
 
     # Realizar la petición
+    
+    
+    print("######### LOG CANTIDAD DE IMAGENES ######### : ",per_page)
+
     response = requests.get(url, headers=headers, params=params)
 
     url_imagenes = []
@@ -24,9 +28,11 @@ def obtener_imagenes_unsplash(query: str, per_page: int = 1, page: int = 1, orie
         datos = response.json()
         # Iterar sobre los resultados para obtener las URLs de las imágenes
         for foto in datos['results']:
+            print(f"Imagen encontrada: {foto['urls']['regular']}")  # URL de la imagen en alta resolución
             url_imagenes.append(foto['urls']['regular']) # URL de la imagen en alta resolución
     else:
         print(f"Error: {response.status_code}")
+        raise RuntimeError(f"Unsplash API falló con estado: {response.status_code}")
     
     
     
