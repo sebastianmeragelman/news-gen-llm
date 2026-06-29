@@ -7,19 +7,13 @@
 
 
 from app.llm.groq_client import generar_contenido, filtrar_contenido
-from app.utils.parser import parsear_json_seguro, limpiar_json_string
 from app.utils.logger import logger
 import requests
-from app.services.scraper_noticias import obtener_noticias
-import json
-
 
 
 def generar_noticia(query: str,max_links: int = 30):
 
     logger.info(f"🚀 Nueva request: {query}")
-
-
 
     # Si corre en el puerto predeterminado de FastAPI, es el 8000
     url_scrape_noticias = "http://127.0.0.1:8000/scrape-noticias"
@@ -49,19 +43,8 @@ def generar_noticia(query: str,max_links: int = 30):
     
 
     logger.info(f"📄 Contexto generado: {len(noticias)} elementos")
-
     # Llamada al llm
-
-    
-    print("###############################")
-    print("##########noticias antes de filtrar_contenido #####################")
-    print(noticias)
-    print("###############################")
-    #noticias = json.loads(noticias)
-    
     noticias = noticias.get('noticias')
-
-
     top_noticias = filtrar_contenido(noticias,query)
     top_noticias = top_noticias.get('noticias')
     
@@ -72,8 +55,6 @@ def generar_noticia(query: str,max_links: int = 30):
             "texto": "No se encontró información suficiente.",
             "resumen": "sin-datos"
         }
-
-
 
 
     for nota in top_noticias:
@@ -89,15 +70,7 @@ def generar_noticia(query: str,max_links: int = 30):
     contexto = " ".join(textos)
     print("CONTEXTO FINAL PARA EL LLM:\n", contexto)
     respuesta = generar_contenido(contexto,query=query)
-    #logger.info(f"RAW LLM RESPONSE:\n{respuesta}")
-    #data = parsear_json_seguro(respuesta)
-
-    #print("############ DATA:\n", data)
-    print("##### LOG  parsear_json_seguro() PASA OK #####")
-    #return data
-    #return json.loads(respuesta)
-    respuesta = generar_contenido(contexto, query=query)
-    
+   
     logger.info(respuesta)
 
     return respuesta
