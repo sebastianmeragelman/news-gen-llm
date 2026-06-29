@@ -20,7 +20,8 @@ def generar_contenido(contexto: str, query: str):
         model="llama-3.1-8b-instant",
         response_model=NoticiaGenerada,
         messages=[{"role": "user", "content": prompt}],
-        temperature=0.5 
+        temperature=0.5,
+        frequency_penalty=0.5 
     )
     # Devuelve un string (Texto plano)
     return response.model_dump()

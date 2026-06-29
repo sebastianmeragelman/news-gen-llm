@@ -17,7 +17,7 @@ router = APIRouter()
 
 @router.post("/generar-noticia", response_model=NoticiaOutput)
 def generar(data: QueryInput):
-    return generar_noticia(data.query, data.max_links)
+    return generar_noticia(data.query, data.max_links,data.cant_imagenes)
 
 
 @router.post("/imagenes")

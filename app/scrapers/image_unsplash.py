@@ -29,7 +29,7 @@ def obtener_imagenes_unsplash(query: str, per_page: int = 1, page: int = 1, orie
     url_imagenes = []
     if response.status_code == 200:
         datos = response.json()
-        print(datos)
+        
         
         # Iterar sobre los resultados para obtener las URLs de las imágenes
         for foto in datos['results']:

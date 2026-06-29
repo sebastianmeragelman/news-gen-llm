@@ -41,6 +41,7 @@ class ListaNoticias(BaseModel):
 class QueryInput(BaseModel):
     query: str
     max_links: int = Field(default=30, alias="max_links")
+    cant_imagenes: int = 1
 
 class NoticiaOutput(BaseModel):
     titulo: str
