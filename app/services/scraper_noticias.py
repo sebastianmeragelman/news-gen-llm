@@ -111,10 +111,6 @@ def obtener_noticias(query: str, max_links: int = 30) -> ListaNoticias:
                 continue
         browser.close()
     logger.info(f"Contextos obtenidos: {len(resultados)}")
-    print("##################################")
-    print(" ------ LOG RESULTADOS FINALES ------")
-    print(resultados)
-    print("##################################")
     
     return ListaNoticias(noticias=resultados)
     

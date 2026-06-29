@@ -21,10 +21,6 @@ def obtener_imagenes_unsplash(query: str, per_page: int = 1, page: int = 1, orie
 
     response = requests.get(url, headers=headers, params=params)
 
-    print("IMPRIMO LOG RESPONSE:")
-    print(response)
-
-
 
     url_imagenes = []
     if response.status_code == 200:

@@ -17,17 +17,10 @@ def obtener_imagenes(query: str, cantidad: int = 1):
         urls = []
     
 
-        print("-----------------")
-        print(f"----CANTIDAD DE IMAGENES PEDIDAS---{cantidad}----------")
-        print("-----------------")
+    
         for cant_imagenes in range(cantidad):
             query_limpia = query.replace("_", " ").strip()
             query_partes = query_limpia.split()
-
-            print("######################")
-            print("########QUERY_PARTES##############")
-            print(query_partes)
-            print("######################")
 
 
             if len(query_partes)-cant_imagenes <= 0:
