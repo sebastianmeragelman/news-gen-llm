@@ -17,11 +17,6 @@ def filtrar_prompt_noticia(noticias: list,query: str):
 
     
 
-    print("----------LISTA DE NOTICIAS ----------")
-    print(lista_noticias)
-    print("---------------------------------------")
-
-
     return f"""
                 SOS UN PERIODISTA PROFESIONAL EN LA PROVINCIA DE CÓRDOBA, ARGENTINA.
 
@@ -145,7 +140,7 @@ NOTA:
 - Cada párrafo debe aportar información nueva, sin repetir datos de párrafos anteriores.
 
 RESUMEN:
-- Generar un resumen de MÁXIMO 10 palabras.
+- Generar un resumen de MINIMO 4 palabras y MÁXIMO 6 palabras.
 - Usar SOLO palabras clave (sin conectores innecesarios).
 - Formato: palabras separadas por guiones bajos (ej: crisis_economica_inflacion).
 

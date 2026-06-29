@@ -11,7 +11,7 @@ from app.utils.logger import logger
 import requests
 
 
-def generar_noticia(query: str,max_links: int = 30):
+def generar_noticia(query: str,max_links: int = 30,cant_imagenes: int = 1):
 
     logger.info(f"🚀 Nueva request: {query}")
 
@@ -68,9 +68,41 @@ def generar_noticia(query: str,max_links: int = 30):
                 break
     
     contexto = " ".join(textos)
-    print("CONTEXTO FINAL PARA EL LLM:\n", contexto)
+    
     respuesta = generar_contenido(contexto,query=query)
    
     logger.info(respuesta)
+
+
+    # Si corre en el puerto predeterminado de FastAPI, es el 8000
+    url_imagenes = "http://127.0.0.1:8000/imagenes"
+
+    # 2. Payload (JSON) que espera el endpoint
+    payload = {"query": respuesta.get('resumen'), "cantidad": cant_imagenes}
+
+    try:
+        #Petición POST mandando el JSON
+        response = requests.post(url_imagenes, json=payload)
+
+        # Si el endpoint devuelve un error (400, 500, etc.), esto lanzará una excepción
+        response.raise_for_status()
+
+        # Obtener la lista de noticias desde la respuesta JSON
+        
+        imagenes = response.json()
+
+    
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Error al obtener imagenes: {e}")
+        return {
+            ["SIN IMAGENES"]
+            
+        }
+    respuesta["imagenes"] = imagenes.get('imagenes')
+    return respuesta
+
+
+
+
 
     return respuesta

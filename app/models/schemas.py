@@ -19,6 +19,7 @@ class ImagenesOutput(BaseModel):
     query: str
     imagenes: List[str]
 
+
 class Noticia(BaseModel):
     titulo: str
     url: str
@@ -45,6 +46,7 @@ class NoticiaOutput(BaseModel):
     titulo: str
     texto: str
     resumen: str
+    imagenes: List[str]
 
 class NoticiasInput(BaseModel):
     query: str
