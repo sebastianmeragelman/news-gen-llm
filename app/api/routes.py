@@ -7,17 +7,25 @@
 
 
 from fastapi import APIRouter
-from app.models.schemas import QueryInput, NoticiaOutput,ImagenesInput
+from app.models.schemas import QueryInput, NoticiaOutput,ImagenesInput,NoticiasInput
 from app.services.news_service import generar_noticia
 from app.services.image_generation import obtener_imagenes
+from app.services.scraper_noticias import obtener_noticias
+
 
 router = APIRouter()
 
 @router.post("/generar-noticia", response_model=NoticiaOutput)
 def generar(data: QueryInput):
-    return generar_noticia(data.query)
+    return generar_noticia(data.query, data.max_links)
 
 
 @router.post("/imagenes")
 def imagenes(data: ImagenesInput):
     return obtener_imagenes(data.query, data.cantidad)
+
+
+@router.post("/scrape-noticias")
+def scrape_noticias(data: NoticiasInput):
+    return obtener_noticias(data.query,data.max_links)
+

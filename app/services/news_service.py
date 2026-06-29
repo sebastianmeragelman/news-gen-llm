@@ -8,23 +8,59 @@
 
 from app.llm.groq_client import generar_contenido, filtrar_contenido
 from app.utils.parser import parsear_json_seguro, limpiar_json_string
-from app.scrapers.news_scraper import get_news_context
 from app.utils.logger import logger
+import requests
+from app.services.scraper_noticias import obtener_noticias
 import json
 
-def generar_noticia(query: str):
+
+
+def generar_noticia(query: str,max_links: int = 30):
 
     logger.info(f"🚀 Nueva request: {query}")
 
+
+
+    # Si corre en el puerto predeterminado de FastAPI, es el 8000
+    url_scrape_noticias = "http://127.0.0.1:8000/scrape-noticias"
+
+    # 2. Payload (JSON) que espera el endpoint
+    payload = {"query": query, "max_links": max_links}
+
+    try:
+        #Petición POST mandando el JSON
+        response = requests.post(url_scrape_noticias, json=payload)
+
+        # Si el endpoint devuelve un error (400, 500, etc.), esto lanzará una excepción
+        response.raise_for_status()
+
+        # Obtener la lista de noticias desde la respuesta JSON
+        
+        noticias = response.json()
+
     
-    
-    noticias = get_news_context(query, n=30)
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Error al obtener noticias: {e}")
+        return {
+            "texto": "No se pudo obtener información de noticias.",
+            "resumen": "error"
+        }
 
     
 
     logger.info(f"📄 Contexto generado: {len(noticias)} elementos")
 
     # Llamada al llm
+
+    
+    print("###############################")
+    print("##########noticias antes de filtrar_contenido #####################")
+    print(noticias)
+    print("###############################")
+    #noticias = json.loads(noticias)
+    
+    noticias = noticias.get('noticias')
+
 
     top_noticias = filtrar_contenido(noticias,query)
     top_noticias = top_noticias.get('noticias')
@@ -61,7 +97,7 @@ def generar_noticia(query: str):
     #return data
     #return json.loads(respuesta)
     respuesta = generar_contenido(contexto, query=query)
-    print(respuesta)
+    
     logger.info(respuesta)
 
     return respuesta

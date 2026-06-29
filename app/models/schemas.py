@@ -25,18 +25,31 @@ class Noticia(BaseModel):
     orden: int
 
 
+class Noticiascrapeadas(BaseModel):
+    titulo: str
+    url: str
+    texto: str
+
+
 class ListaNoticias(BaseModel):
-    noticias: List[Noticia]
+    noticias: List[Noticiascrapeadas]
+
 
 
 
 class QueryInput(BaseModel):
     query: str
+    max_links: int = Field(default=30, alias="max_links")
 
 class NoticiaOutput(BaseModel):
     titulo: str
     texto: str
     resumen: str
+
+class NoticiasInput(BaseModel):
+    query: str
+    max_links: int = Field(default=30, alias="max_links")
+
 
 
 class NoticiaGenerada(BaseModel):
