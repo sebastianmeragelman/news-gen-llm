@@ -1,5 +1,5 @@
 from app.scrapers.news_scraper import  obtener_links
-from app.models.schemas import Noticia, ListaNoticias
+from app.models.schemas import ListaNoticias
 from app.utils.logger import logger
 from app.scrapers.news_scraper import build_google_news_url, resolver_url, es_url_valida, extraer_texto, sanitizar
 import requests
@@ -78,7 +78,8 @@ def obtener_noticias(query: str, max_links: int = 30) -> ListaNoticias:
                         try:
                             page.goto(
                                 url_final,
-                                wait_until="networkidle",
+                                #wait_until="networkidle",
+                                wait_until="domcontentloaded",
                                 timeout=30000
                             )
                             html = page.content()
@@ -99,11 +100,16 @@ def obtener_noticias(query: str, max_links: int = 30) -> ListaNoticias:
                 if len(texto) < 300:
                     continue
                 texto = sanitizar(texto)[:4000]
-                resultados.append({
-                    "url": url_final,
-                    "titulo": item.get("titulo", ""),
-                    "texto": texto
-                })
+                
+                if url_final != None and type(texto) == 'str' and len(texto) > 299:
+                
+                
+                
+                    resultados.append({
+                        "url": url_final,
+                        "titulo": item.get("titulo", ""),
+                        "texto": texto
+                    })
                 if len(resultados) >= max_links:
                     break
             except Exception as e:

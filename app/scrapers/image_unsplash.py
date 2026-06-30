@@ -29,7 +29,7 @@ def obtener_imagenes_unsplash(query: str, per_page: int = 1, page: int = 1, orie
         
         # Iterar sobre los resultados para obtener las URLs de las imágenes
         for foto in datos['results']:
-            print(f"Imagen encontrada: {foto['urls']['regular']}")  # URL de la imagen en alta resolución
+            
             url_imagenes.append(foto['urls']['regular']) # URL de la imagen en alta resolución
     else:
         print(f"Error: {response.status_code}")

@@ -54,7 +54,7 @@ def resolver_url(context, url):
         page.goto(
             url,
             timeout=10000,
-            wait_until="networkidle"
+            wait_until="domcontentloaded"
         )
 
         page.wait_for_timeout(2000)
