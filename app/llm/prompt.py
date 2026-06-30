@@ -129,14 +129,13 @@ REGLAS OBLIGATORIAS:
 - OMITIR LAS SECCIONES DE TEXTO QUE DIGAN COPYWRIGHT 
 - SOLO usar datos verificables del CONTEXTO.
 - Tono formal, objetivo y periodístico.
-- Cada párrafo debe estar separado por un salto de línea \\n.
+- El título debera tener un MINIMO de 5 palabras y un MÁXIMO 10 palabras.
+- El total de la nota debe tener entre 300 y 600 palabras sin contar los espacios y saltos de linea.
 
 NOTA:
+- El total de la nota debe tener entre 300 y 600 palabras mas los espacios y saltos de linea.
 - Ampliar la información con datos verificables del CONTEXTO.
 - Ampliar la información con datos verificables en Wikipedia
-- CADA PARRAFO DEBE TENER ENTRE 4 y 6 lineas.
-- Escribir entre 5 y 6 párrafos.
-- El total de la nota debe tener entre 300 y 600 palabras.
 - Cada párrafo debe aportar información nueva, sin repetir datos de párrafos anteriores.
 
 RESUMEN:
@@ -158,13 +157,7 @@ EJEMPLO DE Estructura EXACTA:
 
 {{
   "titulo": "Título de la noticia",
-  "texto": 
-  "<P1> ... </P1>
-  <P2> ... </P2>
-  <P3> ... </P3>
-  <P4> ... </P4>
-  <P5> ... </P5>
-  <P6> ... </P6>", 
+  "texto":  "texto de la nota", 
   "resumen": "palabra1_palabra2_palabra3"
 }}
 

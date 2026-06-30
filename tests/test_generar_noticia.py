@@ -1,21 +1,81 @@
-from app.services.scraper_noticias import obtener_noticias
 
-def test_scrape_noticias():
-    data = obtener_noticias("cordoba deportes", 5)
-
-    assert isinstance(data, list)
-    assert len(data) == 5
+from app.services.news_service import generar_noticia
 
 
-    for item in data:
-        assert isinstance(item, dict)
-        assert "titulo" in item
-        assert "url" in item
-        assert "texto" in item
+def test_generar_noticia_integracion():
 
+    resultado = generar_noticia(
+        query="cordoba deportes",
+        max_links=5,
+        cant_imagenes=3
+    )
 
-        assert isinstance(item["titulo"], str)
-        assert isinstance(item["url"], str)
-        assert isinstance(item["texto"], str)
+    # ------------------------------------------------
+    # Validación estructura general
+    # ------------------------------------------------
 
-        assert item["url"].startswith("http")
+    assert isinstance(resultado, dict), "La respuesta debe ser un diccionario"
+
+    assert "titulo" in resultado
+    assert "texto" in resultado
+    assert "resumen" in resultado
+    assert "imagenes" in resultado
+
+    # ------------------------------------------------
+    # TÍTULO
+    # ------------------------------------------------
+
+    assert isinstance(resultado["titulo"], str)
+
+    titulo = resultado["titulo"].strip()
+
+    assert len(titulo) > 0
+
+    palabras = titulo.split()
+
+    assert 2 <= len(palabras) <= 10, \
+        f"Título inválido ({len(palabras)} palabras)"
+
+    # ------------------------------------------------
+    # TEXTO
+    # ------------------------------------------------
+
+    assert isinstance(resultado["texto"], str)
+
+    texto = resultado["texto"].strip()
+
+    palabras_texto = texto.split()
+
+    assert 300 <= len(palabras_texto) <= 600, \
+        f"Texto inválido ({len(palabras_texto)} palabras)"
+
+    # ------------------------------------------------
+    # RESUMEN
+    # ------------------------------------------------
+
+    assert isinstance(resultado["resumen"], str)
+
+    resumen = resultado["resumen"].strip()
+
+    elementos = resumen.split("_")
+
+    assert 3 <= len(elementos) <= 6, \
+        f"Resumen inválido ({len(elementos)} términos)"
+
+    for palabra in elementos:
+        assert len(palabra) > 0
+
+    # ------------------------------------------------
+    # IMÁGENES
+    # ------------------------------------------------
+
+    assert isinstance(resultado["imagenes"], list)
+
+    assert len(resultado["imagenes"]) == 3
+
+    for url in resultado["imagenes"]:
+
+        assert isinstance(url, str)
+
+        assert url.startswith("http"), \
+            f"URL inválida: {url}"
