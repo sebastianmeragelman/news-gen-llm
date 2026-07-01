@@ -121,7 +121,7 @@ def generar_prompt_noticia(contexto: str,query: str):
                 SOS UN REDACTOR PERIODÍSTICO PROFESIONAL.
 
 OBJETIVO:
-Redactar una nota periodística  de tono informativo sobre {query} basada en el CONTEXTO proporcionado.
+Redactar una nota periodística sobre {query} basada en el CONTEXTO proporcionado.
 
 REGLAS OBLIGATORIAS:
 
@@ -130,10 +130,14 @@ REGLAS OBLIGATORIAS:
 - SOLO usar datos verificables del CONTEXTO.
 - Tono formal, objetivo y periodístico.
 - El título debera tener un MINIMO de 5 palabras y un MÁXIMO 10 palabras.
-- El total de la nota debe tener entre 300 y 600 palabras sin contar los espacios y saltos de linea.
+- El total de la nota debe tener mas de 300 palabras y menos de 600 palabras sin contar los espacios y saltos de linea.
 
-NOTA:
-- El total de la nota debe tener entre 300 y 600 palabras mas los espacios y saltos de linea.
+TITULO: 
+- Generar un título de MÁXIMO 10 palabras.
+- Usar un lenguaje claro y conciso.
+
+TEXTO:
+- El total de la nota debe tener entre 300 y 600 palabras sin contar los espacios y saltos de linea.
 - Ampliar la información con datos verificables del CONTEXTO.
 - Ampliar la información con datos verificables en Wikipedia
 - Cada párrafo debe aportar información nueva, sin repetir datos de párrafos anteriores.
@@ -143,9 +147,6 @@ RESUMEN:
 - Usar SOLO palabras clave (sin conectores innecesarios).
 - Formato: palabras separadas por guiones bajos (ej: crisis_economica_inflacion).
 
-TITULO: 
-- Generar un título de MÁXIMO 10 palabras.
-- Usar un lenguaje claro y conciso.
 
 FORMATO DE SALIDA (OBLIGATORIO):
 - Responder SOLO con JSON válido.
