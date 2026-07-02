@@ -99,7 +99,17 @@ Este proyecto fue desarrollado como iniciativa personal y constituye el backend 
 (Unsplash → Pollinations)
         │
         ▼
-      Respuesta JSON
+   Respuesta JSON
+        │
+        ▼
+Formateo de Noticia HTML
+      (Groq LLM)
+        │
+        ▼
+   Respuesta JSON
+
+
+
 ```
 
 
