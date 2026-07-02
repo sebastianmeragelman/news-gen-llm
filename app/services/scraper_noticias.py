@@ -100,7 +100,7 @@ def obtener_noticias(query: str, max_links: int = 30) -> ListaNoticias:
                 
                 if len(lista_palabras) < 300:
                     continue
-                texto = sanitizar(texto)[:2500]
+                texto = sanitizar(texto)[:3000]
                 
                 if url_final != None and len(lista_palabras) > 299:
                 

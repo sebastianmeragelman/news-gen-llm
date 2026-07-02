@@ -36,6 +36,8 @@ class ListaNoticias(BaseModel):
     noticias: List[Noticiascrapeadas]
 
 
+class ListaNoticiasOrdenadas(BaseModel):
+    noticias: List[Noticia]  # Usa el modelo que tiene 'titulo', 'url' y 'orden'
 
 
 class QueryInput(BaseModel):

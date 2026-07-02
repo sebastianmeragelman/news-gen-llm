@@ -44,15 +44,28 @@ def generar_noticia(query: str,max_links: int = 30,cant_imagenes: int = 1):
     # Extraigo el cuerpo de la noticia porque viene en formato noticia:{texto:}
     noticias = noticias.get('noticias')
 
+
+    # Filtrar las noticias para quedarse con las más relevantes según la query
+    
+    
+    print("#######################################")
+    print("#############FILTRAR_NOTICIAS dentro de news_service##########################")
+    print(" EJECUTO FILTRAR CONTENIDO")
+    
+    top_noticias = filtrar_contenido(noticias,query)
+    top_noticias = top_noticias.get('noticias')
+
+    print("#######################################")
+    print("#############FILTRAR_NOTICIAS dentro de news_service##########################")
+    print("  FILTRAR CONTENIDO FUNCIONO OK")
+
+
     # Para control del tamaño del contexto
     cantidad_palabras = 0
-    for nota in noticias:
+    for nota in top_noticias:
         cantidad_palabras += len(nota.get('texto', '').split())
     logger.info(f"📄 TAMAÑO DEL Contexto NOTICIAS generado: {cantidad_palabras} elementos")
 
-    # Filtrar las noticias para quedarse con las más relevantes según la query
-    top_noticias = filtrar_contenido(noticias,query)
-    top_noticias = top_noticias.get('noticias')
 
         
     if not top_noticias:

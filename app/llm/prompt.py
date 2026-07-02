@@ -15,7 +15,7 @@ def filtrar_prompt_noticia(noticias: list,query: str):
         lista_noticias.append({
             "titulo": noticia.get("titulo", ""),
             "url": noticia.get("url", ""),
-            "texto": noticia.get("texto", "")[:2000]
+            "texto": noticia.get("texto", "")[:4000]
         })
     
     
@@ -85,35 +85,9 @@ ENTRADA:
 "texto": "Texto de la noticia4"
 }}
 
-SALIDA ESPERADA:
-[{{
-"titulo": "Titulo de la noticia1",
-"url": "https://www.ejemplo.com/noticia1",
-"orden": 1
-}},
-{{
-"titulo": "Titulo de la noticia 4",
-"url": "https://www.ejemplo.com/noticia4",
-"orden": 2
-}},
-{{
-"titulo": "Titulo de la noticia 2",
-"url": "https://www.ejemplo.com/noticia2",
-"orden": 3
-}}
-,
-{{
-"titulo": "Titulo de la noticia 3",
-"url": "https://www.ejemplo.com/noticia3",
-"orden": 4
-}}
-]
-
-
-NO SE ACEPTARA UNA SALIDA QUE NO RESPONDA AL FORMATO DE LISTA  DE 4 OBJETOS JSON COMO: [{{}},{{}},{{}},{{}}] , NI QUE INCLUYA TEXTO ADICIONAL.
-
-NOTICIAS:
+NOTICIAS DISPONIBLES EN EL CONTEXTO:
 {lista_noticias}
+    
 
 
 """     
@@ -124,7 +98,7 @@ def generar_prompt_noticia(contexto: str,query: str):
                 SOS UN REDACTOR PERIODÍSTICO PROFESIONAL.
 
 OBJETIVO:
-Redactar una nota periodística sobre {query} basada en el CONTEXTO proporcionado.
+Redactar una nota periodística sobre {query} reutilizando información del CONTEXTO proporcionado.
 
 REGLAS OBLIGATORIAS:
 
@@ -142,11 +116,10 @@ TITULO:
 TEXTO:
 - El total de la nota debe tener mas de 300 palabras y menos de 600 palabras.
 - Ampliar la información con datos verificables del CONTEXTO.
-- Cada párrafo debe aportar información nueva, sin repetir datos de párrafos anteriores.
-- Se debe continuar la redacción de la nota hasta alcanzar el mínimo de 300 palabras.
+- Se debe continuar la redacción de la nota hasta alcanzar el mínimo de 300 palabras o el maximo de 600 palabras.
 
 RESUMEN:
-- Generar un resumen de MINIMO 4 palabras y MÁXIMO 6 palabras.
+- Generar un resumen de MINIMO 2 palabras y MÁXIMO 4 palabras.
 - Usar SOLO palabras clave (sin conectores innecesarios).
 - Formato: palabras separadas por guiones bajos (ej: crisis_economica_inflacion).
 
