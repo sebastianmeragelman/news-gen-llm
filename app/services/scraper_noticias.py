@@ -84,10 +84,7 @@ def obtener_noticias(query: str, max_links: int = 30) -> ListaNoticias:
                             )
                             html = page.content()
                         
-                            print("##################################")
-                            print(" ------ LOG HTML PLAYWRIGHT ------")
-                            print(html[:340])
-                            print("##################################")
+                            
                         finally:
                             page.close()
                     else:
@@ -97,19 +94,24 @@ def obtener_noticias(query: str, max_links: int = 30) -> ListaNoticias:
                     logger.warning(f"Error HTTP: {e}")
                     continue
                 texto = extraer_texto(html)
-                if len(texto) < 300:
+                
+                lista_palabras = texto.split()
+                
+                
+                if len(lista_palabras) < 300:
                     continue
-                texto = sanitizar(texto)[:4000]
+                texto = sanitizar(texto)[:2500]
                 
-                if url_final != None and type(texto) == 'str' and len(texto) > 299:
+                if url_final != None and len(lista_palabras) > 299:
                 
-                
-                
+
+                    
                     resultados.append({
                         "url": url_final,
                         "titulo": item.get("titulo", ""),
                         "texto": texto
                     })
+
                 if len(resultados) >= max_links:
                     break
             except Exception as e:

@@ -6,15 +6,18 @@
 
 
 def filtrar_prompt_noticia(noticias: list,query: str):
+
     
+
+
     lista_noticias = []
     for noticia in noticias:
         lista_noticias.append({
             "titulo": noticia.get("titulo", ""),
             "url": noticia.get("url", ""),
-            "texto": noticia.get("texto[:1000]", "")
+            "texto": noticia.get("texto", "")[:2000]
         })
-
+    
     
 
     return f"""
@@ -130,17 +133,17 @@ REGLAS OBLIGATORIAS:
 - SOLO usar datos verificables del CONTEXTO.
 - Tono formal, objetivo y periodístico.
 - El título debera tener un MINIMO de 5 palabras y un MÁXIMO 10 palabras.
-- El total de la nota debe tener mas de 300 palabras y menos de 600 palabras sin contar los espacios y saltos de linea.
+- El total de la nota debe tener mas de 300 palabras y menos de 600 palabras.
 
 TITULO: 
 - Generar un título de MÁXIMO 10 palabras.
 - Usar un lenguaje claro y conciso.
 
 TEXTO:
-- El total de la nota debe tener entre 300 y 600 palabras sin contar los espacios y saltos de linea.
+- El total de la nota debe tener mas de 300 palabras y menos de 600 palabras.
 - Ampliar la información con datos verificables del CONTEXTO.
-- Ampliar la información con datos verificables en Wikipedia
 - Cada párrafo debe aportar información nueva, sin repetir datos de párrafos anteriores.
+- Se debe continuar la redacción de la nota hasta alcanzar el mínimo de 300 palabras.
 
 RESUMEN:
 - Generar un resumen de MINIMO 4 palabras y MÁXIMO 6 palabras.

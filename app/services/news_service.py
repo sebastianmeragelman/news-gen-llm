@@ -15,6 +15,7 @@ def generar_noticia(query: str,max_links: int = 30,cant_imagenes: int = 1):
 
     logger.info(f"🚀 Nueva request: {query}")
 
+    # Se llama a la API para obtener N cantidad de noticias sobre query
     # Si corre en el puerto predeterminado de FastAPI, es el 8000
     url_scrape_noticias = "http://127.0.0.1:8000/scrape-noticias"
 
@@ -22,16 +23,14 @@ def generar_noticia(query: str,max_links: int = 30,cant_imagenes: int = 1):
     payload = {"query": query, "max_links": max_links}
 
     try:
-        #Petición POST mandando el JSON
+        #Petición POST mandando el JSON - response tiene las noticias
         response = requests.post(url_scrape_noticias, json=payload)
 
         # Si el endpoint devuelve un error (400, 500, etc.), esto lanzará una excepción
         response.raise_for_status()
 
-        # Obtener la lista de noticias desde la respuesta JSON
-        
+        # Obtener la lista de noticias (sin filtrar) desde la respuesta JSON
         noticias = response.json()
-
     
     except requests.exceptions.RequestException as e:
         logger.error(f"Error al obtener noticias: {e}")
@@ -40,14 +39,21 @@ def generar_noticia(query: str,max_links: int = 30,cant_imagenes: int = 1):
             "resumen": "error"
         }
 
-    
+    logger.info(f"📄 Contexto generado: {len(noticias.get('noticias', []))} elementos")
 
-    logger.info(f"📄 Contexto generado: {len(noticias)} elementos")
-    # Llamada al llm
+    # Extraigo el cuerpo de la noticia porque viene en formato noticia:{texto:}
     noticias = noticias.get('noticias')
+
+    # Para control del tamaño del contexto
+    cantidad_palabras = 0
+    for nota in noticias:
+        cantidad_palabras += len(nota.get('texto', '').split())
+    logger.info(f"📄 TAMAÑO DEL Contexto NOTICIAS generado: {cantidad_palabras} elementos")
+
+    # Filtrar las noticias para quedarse con las más relevantes según la query
     top_noticias = filtrar_contenido(noticias,query)
     top_noticias = top_noticias.get('noticias')
-    
+
         
     if not top_noticias:
         logger.warning("⚠️ No hay contexto")
@@ -56,14 +62,24 @@ def generar_noticia(query: str,max_links: int = 30,cant_imagenes: int = 1):
             "resumen": "sin-datos"
         }
 
-
+    # Se genera el contexto concatenando los textos de las noticias filtradas
+    textos = []
+    
+    # Itero sobre las noticias filtradas y busco el texto completo en la lista original
     for nota in top_noticias:
-        nota.get('url')
-        
-        textos = []
-
+                
+        # Busco la noticia en la lista original para obtener el texto completo
         for agregar in noticias:
+            
+            #Si la url de la noticia filtrada coincide con la url de la noticia original, agrego el texto completo
             if agregar.get('url') == nota.get('url'):
+                
+                print("#######################")
+                print(f"########## TEXTO DE NOTICIA A SUMAR AL CONTEXTO {nota.get('url')} ##########")
+                print(f"TAMAÑO EN PALABRAS: {len(agregar.get('texto', '').split())}")
+                print(agregar.get('texto', ''))
+                
+                
                 textos.append(agregar.get('texto', ''))
                 break
     

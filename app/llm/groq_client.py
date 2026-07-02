@@ -16,6 +16,11 @@ def generar_contenido(contexto: str, query: str):
     
     prompt = generar_prompt_noticia(contexto, query=query)
     
+    print("#######################################")
+    print("#############GENERAR_NOTICIA dentro de groq_client##########################")
+    print(prompt)
+    print("#######################################")
+
     response = cliente_2.chat.completions.create(
         model="llama-3.1-8b-instant",
         response_model=NoticiaGenerada,
@@ -29,7 +34,9 @@ def generar_contenido(contexto: str, query: str):
 
 def filtrar_contenido(noticias: list, query: str):
     prompt = filtrar_prompt_noticia(noticias, query=query)
-        
+
+
+
     response = cliente_2.chat.completions.create(
         model="llama-3.1-8b-instant",
         response_model=ListaNoticias, 
