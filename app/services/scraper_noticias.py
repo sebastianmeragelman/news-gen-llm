@@ -7,13 +7,20 @@ from playwright.sync_api import sync_playwright
 
 
 def obtener_noticias(query: str, max_links: int = 30) -> ListaNoticias:
-
+    """
+    Función para obtener noticias relacionadas con una consulta dada.
+    Parámetros:
+    - query: La consulta de búsqueda para obtener noticias.
+    - max_links: La cantidad máxima de noticias a obtener (por defecto es 30).
+    Retorna:
+    - ListaNoticias: Un objeto que contiene una lista de noticias obtenidas.
+    """
     rss_url = build_google_news_url(query)
     # MODIFICAR LA CANTIDAD DE LINKS PARA TENER MAYOR AMPLITUD DE CASOS
     raw_links = obtener_links(rss_url, max_links=max_links)
 
 
-    ###################################
+    ############ HEADER FUNCIONANDO SUPERA LOS CONTROLES ANTI BOT #######################
     headers = {
     "User-Agent":
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
@@ -39,6 +46,8 @@ def obtener_noticias(query: str, max_links: int = 30) -> ListaNoticias:
 
     resultados = []
 
+    # Si no se encontraron links, se retorna un objeto ListaNoticias vacío
+    # Si se encontraron links, se procede a procesarlos utilizando Playwright para obtener el contenido de las noticias.
     if not raw_links:
         logger.warning("⚠ No se encontraron links")
         return resultados
@@ -50,7 +59,7 @@ def obtener_noticias(query: str, max_links: int = 30) -> ListaNoticias:
             locale="es-AR"
         )
         
-
+        # Itero sobre los links obtenidos y proceso cada uno para extraer el contenido de la noticia. - Filtro los de la blacklist
         for item in raw_links:
 
             try:
@@ -78,7 +87,6 @@ def obtener_noticias(query: str, max_links: int = 30) -> ListaNoticias:
                         try:
                             page.goto(
                                 url_final,
-                                #wait_until="networkidle",
                                 wait_until="domcontentloaded",
                                 timeout=30000
                             )

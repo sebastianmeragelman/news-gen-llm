@@ -6,9 +6,9 @@
 
 
 def filtrar_prompt_noticia(noticias: list,query: str):
-
-    
-
+    """
+    funcion para generar un prompt que filtra noticias a partir de una lista de noticias y una query dada.
+    """
 
     lista_noticias = []
     for noticia in noticias:
@@ -17,8 +17,6 @@ def filtrar_prompt_noticia(noticias: list,query: str):
             "url": noticia.get("url", ""),
             "texto": noticia.get("texto", "")[:4000]
         })
-    
-    
 
     return f"""
                 SOS UN PERIODISTA PROFESIONAL EN LA PROVINCIA DE CÓRDOBA, ARGENTINA.
@@ -92,9 +90,11 @@ NOTICIAS DISPONIBLES EN EL CONTEXTO:
 
 """     
 
-
-
 def generar_prompt_formato_html(contexto: str):
+    """
+    Funcion para crear prompt que genera una nota periodística en formato HTML para WordPress a partir de un contexto dado.
+    """
+    
     return f"""  
 SOS UN REDACTOR Y EDITOR PERIODÍSTICO PROFESIONAL.
 
@@ -124,6 +124,10 @@ CONTEXTO:
     """
 
 def generar_prompt_noticia(contexto: str,query: str):
+    """
+    Funcion para crear prompt que genera una nota periodística a partir de un contexto y una query dada.
+    """
+    
     return f"""
                 SOS UN REDACTOR PERIODÍSTICO PROFESIONAL.
 

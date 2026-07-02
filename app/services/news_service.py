@@ -12,6 +12,15 @@ import requests
 
 
 def generar_noticia(query: str,max_links: int = 30,cant_imagenes: int = 1):
+    """
+    Funcion para generar una noticia a partir de una query, obteniendo links de noticias, filtrando el contenido y generando un resumen.
+    Parámetros:
+    - query: La query de búsqueda (string).
+    - max_links: Número máximo de links a obtener (int, opcional, default=30).
+    - cant_imagenes: Cantidad de imágenes a obtener (int, opcional, default=1).
+    Retorna:
+    - Un diccionario con el texto de la noticia, el resumen y una lista con los links a las imágenes.
+    """
 
     logger.info(f"🚀 Nueva request: {query}")
 
@@ -44,21 +53,10 @@ def generar_noticia(query: str,max_links: int = 30,cant_imagenes: int = 1):
     # Extraigo el cuerpo de la noticia porque viene en formato noticia:{texto:}
     noticias = noticias.get('noticias')
 
-
     # Filtrar las noticias para quedarse con las más relevantes según la query
-    
-    
-    print("#######################################")
-    print("#############FILTRAR_NOTICIAS dentro de news_service##########################")
-    print(" EJECUTO FILTRAR CONTENIDO")
-    
     top_noticias = filtrar_contenido(noticias,query)
+    # Extraigo el cuerpo de la noticia porque viene en formato noticia:{texto:}
     top_noticias = top_noticias.get('noticias')
-
-    print("#######################################")
-    print("#############FILTRAR_NOTICIAS dentro de news_service##########################")
-    print("  FILTRAR CONTENIDO FUNCIONO OK")
-
 
     # Para control del tamaño del contexto
     cantidad_palabras = 0
@@ -87,22 +85,19 @@ def generar_noticia(query: str,max_links: int = 30,cant_imagenes: int = 1):
             #Si la url de la noticia filtrada coincide con la url de la noticia original, agrego el texto completo
             if agregar.get('url') == nota.get('url'):
                 
-                print("#######################")
-                print(f"########## TEXTO DE NOTICIA A SUMAR AL CONTEXTO {nota.get('url')} ##########")
-                print(f"TAMAÑO EN PALABRAS: {len(agregar.get('texto', '').split())}")
-                print(agregar.get('texto', ''))
-                
                 
                 textos.append(agregar.get('texto', ''))
                 break
     
+    # Genero el contexto concatenando los textos de las noticias filtradas
     contexto = " ".join(textos)
     
+    # Obtengo la noticia generada a partir del contexto y la query, que incluye el resumen
     respuesta = generar_contenido(contexto,query=query)
    
     logger.info(respuesta)
 
-
+    # Ejecutamos la llamada a la API para obtener imágenes relacionadas con la noticia generada
     # Si corre en el puerto predeterminado de FastAPI, es el 8000
     url_imagenes = "http://127.0.0.1:8000/imagenes"
 
@@ -117,22 +112,27 @@ def generar_noticia(query: str,max_links: int = 30,cant_imagenes: int = 1):
         response.raise_for_status()
 
         # Obtener la lista de noticias desde la respuesta JSON
-        
         imagenes = response.json()
 
     
     except requests.exceptions.RequestException as e:
         logger.error(f"Error al obtener imagenes: {e}")
-        return {
-            ["SIN IMAGENES"]
-            
-        }
+        return { "imagenes":["SIN IMAGENES"] }
     respuesta["imagenes"] = imagenes.get('imagenes')
     return respuesta
 
 
 
 def generar_notica_html(query: str,max_links: int = 30,cant_imagenes: int = 1):
+    """
+    Funcion para generar una noticia en formato HTML a partir de una query, obteniendo links de noticias, filtrando el contenido y generando un resumen.
+    Parámetros:
+    - query: La query de búsqueda (string).
+    - max_links: Número máximo de links a obtener (int, opcional, default=30).
+    - cant_imagenes: Cantidad de imágenes a obtener (int, opcional, default=1).
+    Retorna:
+    - Un diccionario con el texto de la noticia, el resumen y una lista con los links a las imágenes, además del contenido formateado en HTML.  
+    """
     noticia = generar_noticia(query,max_links,cant_imagenes)
     noticia_formateada = generar_contenido_html(noticia.get('texto'))
     noticia['noticia_formateada'] = noticia_formateada
