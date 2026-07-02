@@ -87,11 +87,41 @@ ENTRADA:
 
 NOTICIAS DISPONIBLES EN EL CONTEXTO:
 {lista_noticias}
-    
+
 
 
 """     
 
+
+
+def generar_prompt_formato_html(contexto: str):
+    return f"""  
+SOS UN REDACTOR Y EDITOR PERIODÍSTICO PROFESIONAL.
+
+OBJETIVO:
+Redactar una nota periodística completa, formal y atractiva utilizando única y exclusivamente la información del CONTEXTO proporcionado. El texto generado se publicará directamente en un sitio web de WordPress.
+
+REGLAS OBLIGATORIAS:
+- SOLO usa datos verificables del CONTEXTO. No agregues opiniones ni inventes información.
+- Omitir firmas de autor, fechas del cable original o textos de copyright.
+- Tono estrictamente formal, objetivo y periodístico.
+
+INSTRUCCIONES DE ESTRUCTURA Y FORMATO PARA WORDPRESS:
+
+1. TITULO: Debe ser plano (sin etiquetas HTML), claro e informativo, de entre 5 y 12 palabras. (WordPress utiliza este campo para el <h1> automáticamente).
+
+2. TEXTO: Debe estar estructurado exclusivamente con etiquetas HTML para WordPress. 
+   - No incluyas un <h1> dentro del texto (el título ya cumple esa función).
+   - Divide la nota en secciones lógicas utilizando subtítulos con la etiqueta <h2> ...<h2>.
+   - Cada párrafo debe estar encerrado estrictamente entre etiquetas <p>...</p>.
+   - Usa etiquetas <strong>...</strong> con moderación para destacar datos clave, cifras o nombres importantes.
+   - IMPORTANTE: El contenido dentro de este campo debe sumar entre 250 y 550 palabras. No repitas frases para rellenar.
+
+3. RESUMEN: Genera una síntesis de entre 2 y 4 palabras clave separadas por guiones bajos.
+
+CONTEXTO:
+{contexto}
+    """
 
 def generar_prompt_noticia(contexto: str,query: str):
     return f"""

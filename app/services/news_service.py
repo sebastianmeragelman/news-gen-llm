@@ -6,7 +6,7 @@
 
 
 
-from app.llm.groq_client import generar_contenido, filtrar_contenido
+from app.llm.groq_client import generar_contenido, filtrar_contenido, generar_contenido_html
 from app.utils.logger import logger
 import requests
 
@@ -132,6 +132,9 @@ def generar_noticia(query: str,max_links: int = 30,cant_imagenes: int = 1):
 
 
 
+def generar_notica_html(query: str,max_links: int = 30,cant_imagenes: int = 1):
+    noticia = generar_noticia(query,max_links,cant_imagenes)
+    noticia_formateada = generar_contenido_html(noticia.get('texto'))
+    noticia['noticia_formateada'] = noticia_formateada
+    return noticia
 
-
-    return respuesta
